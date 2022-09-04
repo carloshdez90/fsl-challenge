@@ -1,0 +1,34 @@
+name: Test React App and Push Docker Registry
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14]
+
+    steps:
+      - name: Checkuot repo
+        uses: actions/checkout@v3
+
+      - name: Testing with Node ${{matrix.node-version}}
+        uses: actions/setup-node@v3
+        with:
+          node-versions: $${{matrix.node-version}}
+
+      - name: Build and test react app
+        run: |
+          cd codebase/rdicidr-0.1.0
+          npm install
+          npm run lint
+          npm install prettier
+          npm run prettier
+          CI=true npm run test
+          npm run build
