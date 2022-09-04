@@ -21,7 +21,7 @@ jobs:
       - name: Testing with Node ${{matrix.node-version}}
         uses: actions/setup-node@v3
         with:
-          node-version: $${{matrix.node-version}}
+          node-version: ${{matrix.node-version}}
 
       - name: Build and test react app
         run: |
