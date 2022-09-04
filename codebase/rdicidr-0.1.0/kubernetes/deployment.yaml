@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fsl-deployment
+  namespace: production
+  labels:
+    app: fsl-app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fsl-app
+  template:
+    metadata:
+      labels:
+        app: fsl-app
+    spec:
+      containers:
+        - name: fsl-app
+          image: carloshdez/fsl-challenge:latest
+          imagePullPolicy: Always
+          env:
+            - name: MY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: fsl-secrets
+                  key: MY_SECRET
+          ports:
+            - containerPort: 80
